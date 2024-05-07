@@ -5,23 +5,25 @@ using namespace std;
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition) : m_A(2, numPoints){
     m_ttl = TTL;
     m_numPoints = numPoints;
-    m_radiansPerSec = ((float)rand() / RAND_MAX) * PI;
+    m_radiansPerSec = ((float)rand() / 2) * PI;
     m_cartesianPlane.setCenter(0, 0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords( mouseClickPosition, m_cartesianPlane);
     m_vx = rand() % (500 + 1 - 100) + 100;
     m_vy = rand() % (500 + 1 - 100) + 100;
     
-    Uint8 r, g, b;
-    r = rand() % 256;
-    g  = rand() % 256;
-    b = rand() % 256;
-    m_color1 = {0,0,0};
-    m_color2 = {r,g,b};
-    double theta = rand() % (int(PI/2));
+    m_color1.r = rand() % 256;
+    m_color1.g  = rand() % 256;
+    m_color1.b = rand() % 256;
+    
+    m_color2.r = rand() % 256;
+    m_color2.g  = rand() % 256;
+    m_color2.b = rand() % 256;
+
+    double theta = ((float)rand() / (PI/2));
     double dTheta = 2 * PI / (numPoints - 1);
     for(int j = 0; j < numPoints; j++){
-        double r, dx, dy;
+        float r, dx, dy;
         r = rand() % (80 + 1 - 20) + 20;
         dx = r * cos(theta);
         dy = r * sin(theta);
@@ -31,7 +33,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     }
 }
 void Particle::draw(RenderTarget& target, RenderStates states) const{
-    VertexArray lines(TriangleFan, m_numPoints + 1);
+    VertexArray lines(TriangleStrip, m_numPoints + 1);
     
     Vector2f center = Vector2f(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     lines[0].position = center;

@@ -19,19 +19,15 @@ void Engine::run(){
     p.unitTests();
     cout << "Unit tests complete.  Starting engine..." << endl;
     while(m_Window.isOpen()){
-        float dtAsSeconds;
-        //restart clock
-        time_per_frame.restart();
-        //convert clock time to seconds
-        dtAsSeconds = time_per_frame.getElapsedTime().asSeconds();
-        this->input();
-        this->update(dtAsSeconds);
-        this->draw();
+        Time dt = time_per_frame.restart();
+        float dtAsSeconds = dt.asSeconds();
+        input();
+        update(dtAsSeconds);
+        draw();
     }
     
 }
 void Engine::input(){
-    while(m_Window.isOpen()){
         Event event;
         while(m_Window.pollEvent(event)){
             if(event.type == sf::Event::Closed) {m_Window.close();}
@@ -48,7 +44,6 @@ void Engine::input(){
                 m_Window.close();
             }
         }
-    }
 }
 void Engine::update(float dtAsSeconds){
     vector<Particle>::iterator iter;
