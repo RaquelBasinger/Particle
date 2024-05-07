@@ -9,7 +9,13 @@ Engine::Engine(){
     int pixelHeight = VideoMode::getDesktopMode().height / 2;
     VideoMode vm(pixelWidth,pixelHeight);
     m_Window.create(vm, "Particle", Style::Default);
-    
+
+    if(!textureBackground.loadFromFile("graphics/background.png")){
+        cout << "Error: Could not load background." << endl;
+    };
+    spriteBackground.setTexture(textureBackground);
+    spriteBackground.setPosition(0, 0);
+    spriteBackground.setScale(2,2.3);
 }
 
 void Engine::run(){
@@ -59,6 +65,7 @@ void Engine::update(float dtAsSeconds){
 }
 void Engine::draw(){
     m_Window.clear();
+    m_Window.draw(spriteBackground);
     for(int i = 0; i < m_particles.size();i++){
         m_Window.draw(m_particles[i]);
     }
