@@ -36,6 +36,7 @@ private:
     ///rotate Particle by theta radians counter-clockwise
     ///construct a RotationMatrix R, left mulitply it to m_A
     void rotate(double theta);
+    void opp_rotate(double theta);
 
     ///Scale the size of the Particle by factor c
     ///construct a ScalingMatrix S, left multiply it to m_A

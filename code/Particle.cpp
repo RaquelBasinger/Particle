@@ -47,7 +47,14 @@ void Particle::draw(RenderTarget& target, RenderStates states) const{
 }
 void Particle::update(float dt){
             m_ttl -= dt;
-            rotate(dt * m_radiansPerSec);
+            int direction = rand() % 2;
+            if(direction == 0){
+                rotate(dt * m_radiansPerSec);
+            }
+            else{
+                opp_rotate(dt * m_radiansPerSec);
+            }
+            
             scale(SCALE);
             float dx, dy;
             dx = m_vx * dt;
@@ -212,6 +219,13 @@ void Particle::rotate(double theta){
     translate(temp.x, temp.y);
 }
 
+void Particle::opp_rotate(double theta){
+    Vector2f temp = m_centerCoordinate;
+    translate(-m_centerCoordinate.x, -m_centerCoordinate.y);
+    RotationMatrix R(-theta);
+    m_A = R * m_A;
+    translate(temp.x, temp.y);
+}
 ///Scale the size of the Particle by factor c
 ///construct a ScalingMatrix S, left multiply it to m_A
 void Particle::scale(double c){
